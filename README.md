@@ -17,3 +17,10 @@ Activate this environment:
 ```bash
 $ source venv/bin/activate
 ```
+
+Install pytest:
+```pip install pytest```
+
+## Running tests
+Run pytest command:
+```pytest```
