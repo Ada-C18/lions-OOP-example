@@ -1,39 +1,31 @@
 class Pizza:
-    def __init__(self, diameter=None, crust=None, price=None, slices=None, toppings=None):
-        #demonstration of setting default parameters (None)
-        #you can have a mix of required parameters and optional ones. Set optional ones at the end of the constructor.
-        #setting mutable values as default parameters is not recommended.
+    def __init__(self, diameter, toppings, crust, price, slices=8):
         self.diameter = diameter
+        self.toppings = toppings #list of Topping objects
         self.crust = crust
         self.price = price
         self.slices = slices
-        if not toppings:
-            self.toppings = []
-            #warning to not set mutable values in the constructor to avoid potential problems with side effects
-        else:
-            self.toppings = toppings
 
     def eat_slices(self, number):
         self.slices -= number
 
-    def add_topping(self, new_topping):
-        self.toppings.append(new_topping)
+    def print_toppings(self):
+        for topping in self.toppings:
+            print(topping.name)
+
+    def get_total_topping_cals(self):
+        topping_cals = 0
+        for topping in self.toppings:
+            topping_cals += topping.get_total_cals()
+        return topping_cals
+    
+    def add_topping_considering_preference(self, veg_preference, new_topping_to_add):
+    #veg_preference is True if prefer only vegetarian toppings. Not an attribute of pizza, but
+    # a new argument for a user to pass in.
+        if veg_preference and new_topping_to_add.vegetarian:
+            self.toppings.append(new_topping_to_add)
+        else:
+            raise Exception("Tried to add a non-vegetarian topping to vegetarian preference.")
 
     def print_description(self):
         print(f"My pizza costs ${self.price} dollars and has {self.slices} slices")
-        #not easily testable because it is not returning or modifying anything, just accessing.
-
-
-hawaiian_pizza = Pizza(21, "thin", 9.99, 8, ["pineapple", "bacon"])
-veggie_pizza = Pizza(10, "stuffed", 5.99, 8, ["mushroom", "olives"])
-
-hawaiian_pizza.toppings[0] = 'peach'
-print(hawaiian_pizza.toppings)
-
-veggie_pizza.random = 4
-print(veggie_pizza.random)
-#demo that you can set a new variable parameter outside of the class definition. (not recommended as it can make the program unpredictable. developers often rely on having all parameters documented in the constructor, whether they are optional or not.)
-
-veggie_pizza.eat_slices(4)
-hawaiian_pizza.print_description()
-veggie_pizza.print_description()
