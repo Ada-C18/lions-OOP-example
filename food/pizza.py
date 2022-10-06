@@ -22,10 +22,13 @@ class Pizza:
     def add_topping_considering_preference(self, veg_preference, new_topping_to_add):
     #veg_preference is True if prefer only vegetarian toppings. Not an attribute of pizza, but
     # a new argument for a user to pass in.
-        if veg_preference and new_topping_to_add.vegetarian:
+        if veg_preference:
+            if new_topping_to_add.vegetarian:
+                self.toppings.append(new_topping_to_add)
+            else:
+                raise Exception("Tried to add a non-vegetarian topping to vegetarian preference.")
+        else: #non-vegetarian: not picky. just add the new topping.
             self.toppings.append(new_topping_to_add)
-        else:
-            raise Exception("Tried to add a non-vegetarian topping to vegetarian preference.")
 
     def print_description(self):
         print(f"My pizza costs ${self.price} dollars and has {self.slices} slices")
